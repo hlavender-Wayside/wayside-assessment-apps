@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wayside Schools Assessment Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f8ff;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #9c27b0, #673ab7);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(156, 39, 176, 0.3);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.3em;
+            margin: 15px 0 0 0;
+            opacity: 0.95;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .app-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 6px solid #9c27b0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(156, 39, 176, 0.2);
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(156, 39, 176, 0.1), transparent);
+            border-radius: 0 0 0 100px;
+        }
+
+        .app-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .app-title .emoji {
+            font-size: 1.3em;
+            margin-right: 10px;
+        }
+
+        .app-description {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .app-features {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .app-features li {
+            color: #555;
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .app-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .app-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #9c27b0, #673ab7);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(156, 39, 176, 0.3);
+        }
+
+        .app-button:hover {
+            background: linear-gradient(135deg, #7b1fa2, #512da8);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+        }
+
+        .grade-section {
+            margin-bottom: 40px;
+        }
+
+        .grade-header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .grade-header h2 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .info-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .info-section h3 {
+            color: #9c27b0;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #9c27b0;
+            padding-bottom: 10px;
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .quick-link {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quick-link:hover {
+            background: #1976d2;
+            color: white;
+            border-color: #1976d2;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            background: white;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2em;
+            }
+            
+            .apps-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .app-card {
+                padding: 20px;
+            }
+            
+            .quick-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎓 Wayside Schools Assessment Hub</h1>
+        <p>Professional Reading Level Assessment Tools for Elementary Grades</p>
+    </div>
+
+    <div class="info-section">
+        <h3>📋 How to Use These Assessment Apps</h3>
+        <p><strong>Welcome, Teachers!</strong> These assessment tools are designed to streamline your reading level evaluations and data tracking. Each app provides:</p>
+        <ul class="app-features">
+            <li>Grade-specific reading level expectations based on Wayside Schools standards</li>
+            <li>Easy student information input and assessment recording</li>
+            <li>Instant performance band classification (Masters, Meets, Approaches, Below Grade Level)</li>
+            <li>Google Sheets integration for seamless data upload and tracking</li>
+            <li>Professional results formatting for documentation and reporting</li>
+        </ul>
+        
+        <div class="quick-links">
+            <a href="#pre-k" class="quick-link">Pre-K Apps</a>
+            <a href="#kindergarten" class="quick-link">Kindergarten Apps</a>
+            <a href="#elementary" class="quick-link">Elementary Apps</a>
+        </div>
+    </div>
+
+    <!-- Pre-K Section -->
+    <div class="grade-section" id="pre-k">
+        <div class="grade-header">
+            <h2>🌟 Pre-Kindergarten Assessment Apps</h2>
+        </div>
+        
+        <div class="apps-grid">
+            <div class="app-card">
+                <div class="app-title">
+                    <span class="emoji">🅰️</span>
+                    PK3 Letter Recognition Assessment
+                </div>
+                <div class="app-description">
+                    Assess letter recognition skills for 3-year-old students with age-appropriate expectations and tracking.
+                </div>
+                <ul class="app-features">
+                    <li>Upper and lowercase letter assessment</li>
+                    <li>Quarterly progress tracking</li>
+                    <li>Performance standards: Masters ≥3, Meets 2, Approaches 1</li>
+                    <li>Instant CSV export for Google Sheets</li>
+                </ul>
+                <a href="pk3-assessment-app.html" class="app-button">Open PK3 App</a>
+            </div>
+
+            <div class="app-card">
+                <div class="app-title">
+                    <span class="emoji">🔤</span>
+                    PK4 Enhanced Letter Assessment
+                </div>
+                <div class="app-description">
+                    Comprehensive letter and sound recognition assessment for 4-year-old students preparing for kindergarten.
+                </div>
+                <ul class="app-features">
+                    <li>Letter recognition and letter sounds</li>
+                    <li>High frequency words assessment</li>
+                    <li>Syllabic sequence for bilingual students</li>
+                    <li>Kindergarten readiness indicators</li>
+                </ul>
+                <a href="pk4-assessment-app.html" class="app-button">Open PK4 App</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kindergarten Section -->
+    <div class="grade-section" id="kindergarten">
+        <div class="grade-header">
+            <h2>📚 Kindergarten Assessment Apps</h2>
+        </div>
+        
+        <div class="apps-grid">
+            <div class="app-card">
+                <div class="app-title">
+                    <span class="emoji">🍂</span>
+                    Kindergarten First Semester
+                </div>
+                <div class="app-description">
+                    Fall semester assessment focusing on foundational letter recognition and early reading skills.
+                </div>
+                <ul class="app-features">
+                    <li>Letter recognition (upper/lowercase)</li>
+                    <li>Beginning sound identification</li>
+                    <li>Early reading level assessment (AA-C+)</li>
+                    <li>TX-KEA alignment</li>
+                </ul>
+                <a href="kindergarten-first-semester-app.html" class="app-button">Open K1 App</a>
+            </div>
+
+            <div class="app-card">
+                <div class="app-title">
+                    <span class="emoji">🌸</span>
+                    Kindergarten Second Semester
+                </div>
+                <div class="app-description">
+                    Spring semester assessment with advanced reading levels and Google Sheets integration.
+                </div>
+                <ul class="app-features">
+                    <li>Reading levels AA through E+</li>
+                    <li>High frequency word assessment</li>
+                    <li>Google Sheets upload functionality</li>
+                    <li>End-of-year progress tracking</li>
+                </ul>
+                <a href="kindergarten-second-semester-app.html" class="app-button">Open K2 App</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Elementary Section -->
+    <div class="grade-section" id="elementary">
+        <div class="grade-header">
+            <h2>📖 Elementary Assessment Apps</h2>
+        </div>
+        
+        <div class="apps-grid">
+            <div class="app-card">
+                <div class="app-title">
+                    <span class="emoji">📊</span>
+                    1st Grade Assessment Suite
+                </div>
+                <div class="app-description">
+                    Comprehensive assessment tool with bulk upload, manual entry, and guided reading group generation.
+                </div>
+                <ul class="app-features">
+                    <li>Reading levels A through P</li>
+                    <li>Quarterly assessment tracking</li>
+                    <li>CSV upload from Google Sheets</li>
+                    <li>Automatic guided reading groups</li>
+                    <li>Progress visualization and reporting</li>
+                </ul>
+                <a href="First_Grade_Upload_App.html" class="app-button">Open 1st Grade App</a>
+            </div>
+
+            <div class="app-card">
+                <div class="app-title">
+                    <span class="emoji">📈</span>
+                    2nd Grade Assessment Suite
+                </div>
+                <div class="app-description">
+                    Advanced assessment tool designed for 2nd grade reading expectations and performance standards.
+                </div>
+                <ul class="app-features">
+                    <li>Reading levels AA through P</li>
+                    <li>2nd grade performance expectations</li>
+                    <li>Masters: K+/L+/M+/N+ by quarter</li>
+                    <li>CSV upload and manual entry options</li>
+                    <li>Advanced guided reading strategies</li>
+                </ul>
+                <a href="2nd-grade-assessment-app.html" class="app-button">Open 2nd Grade App</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h3>💡 Assessment Tips & Best Practices</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div>
+                <h4 style="color: #4CAF50;">📝 Before Assessment:</h4>
+                <ul class="app-features">
+                    <li>Ensure quiet, comfortable testing environment</li>
+                    <li>Have all materials ready (books, recording sheets)</li>
+                    <li>Review student's previous assessment data</li>
+                    <li>Plan for 15-20 minutes per student</li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="color: #FF9800;">📊 During Assessment:</h4>
+                <ul class="app-features">
+                    <li>Start at student's instructional level</li>
+                    <li>Take detailed notes on reading behaviors</li>
+                    <li>Record accuracy, fluency, and comprehension</li>
+                    <li>Stop when student reaches frustration level</li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="color: #2196F3;">📈 After Assessment:</h4>
+                <ul class="app-features">
+                    <li>Input data immediately while fresh</li>
+                    <li>Upload to Google Sheets for tracking</li>
+                    <li>Plan instruction based on results</li>
+                    <li>Share results with families</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>Wayside Schools Assessment Hub</strong></p>
+        <p>Professional assessment tools designed for educational excellence</p>
+        <p style="margin-top: 15px; font-size: 0.9em;">
+            For technical support or questions about these assessment tools, please contact your Academic Team.
+        </p>
+    </div>
+</body>
+</html>
