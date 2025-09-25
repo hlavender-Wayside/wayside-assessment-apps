@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PK4 Enhanced Letter Assessment - Wayside Schools</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f8ff;
+        }
+        .header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+        }
+        .quarter-selector {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .quarter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .quarter-tab {
+            flex: 1;
+            padding: 12px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .quarter-tab.active {
+            background: #28a745;
+            color: white;
+        }
+        .student-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .student-input {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .student-input input {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .language-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        .lang-btn {
+            padding: 8px 16px;
+            border: 2px solid #28a745;
+            background: white;
+            color: #28a745;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .lang-btn.active {
+            background: #28a745;
+            color: white;
+        }
+        .assessment-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #28a745;
+        }
+        .assessment-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .assessment-description {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .letter-box {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .letter-box:hover {
+            background: #e9ecef;
+        }
+        .letter-box.mastered {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .letter-box input[type="checkbox"] {
+            margin-right: 6px;
+            transform: scale(1.1);
+        }
+        .letter-box label {
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #28a745;
+            color: white;
+        }
+        .btn-success {
+            background: #17a2b8;
+            color: white;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .groups-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .group-card {
+            background: #f8f9fa;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .group-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        .student-list {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .activity-item {
+            background: #e8f5e8;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .activity-title {
+            font-weight: bold;
+            color: #155724;
+            margin-bottom: 8px;
+        }
+        .materials-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            transition: width 0.8s ease;
+            border-radius: 12px;
+        }
+        .student-summary {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .skill-summary {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .skill-box {
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+            border-left: 3px solid #28a745;
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌟 PK4 Enhanced Letter Assessment</h1>
+        <p>Comprehensive Letter Skills Assessment - Name & Sound Recognition</p>
+    </div>
+
+    <div class="quarter-selector">
+        <h2>📅 Assessment Quarter</h2>
+        <div class="quarter-tabs">
+            <button class="quarter-tab active" onclick="selectQuarter(1)">Quarter 1</button>
+            <button class="quarter-tab" onclick="selectQuarter(2)">Quarter 2</button>
+            <button class="quarter-tab" onclick="selectQuarter(3)">Quarter 3</button>
+            <button class="quarter-tab" onclick="selectQuarter(4)">Quarter 4</button>
+        </div>
+    </div>
+
+    <div class="student-section">
+        <h2>👥 Student Assessment Entry</h2>
+        
+        <div class="student-input">
+            <input type="text" id="studentName" placeholder="Enter Student Name" style="width: 200px;">
+            <div class="language-buttons">
+                <button class="lang-btn active" id="englishBtn" onclick="selectLanguage('english')">English</button>
+                <button class="lang-btn" id="spanishBtn" onclick="selectLanguage('spanish')">Spanish</button>
+            </div>
+        </div>
+
+        <!-- Upper Case Name Recognition -->
+        <div class="assessment-section">
+            <div class="assessment-title">
+                🔤 Upper Case Name Recognition
+            </div>
+            <div class="assessment-description">
+                Can the student identify the letter NAME when shown the uppercase letter?
+            </div>
+            <div class="alphabet-grid" id="uppercaseNameGrid"></div>
+        </div>
+
+        <!-- Lower Case Name Recognition -->
+        <div class="assessment-section">
+            <div class="assessment-title">
+                🔡 Lower Case Name Recognition
+            </div>
+            <div class="assessment-description">
+                Can the student identify the letter NAME when shown the lowercase letter?
+            </div>
+            <div class="alphabet-grid" id="lowercaseNameGrid"></div>
+        </div>
+
+        <!-- Upper Case Sound Recognition -->
+        <div class="assessment-section">
+            <div class="assessment-title">
+                🔊 Upper Case Sound Recognition
+            </div>
+            <div class="assessment-description">
+                Can the student say the letter SOUND when shown the uppercase letter?
+            </div>
+            <div class="alphabet-grid" id="uppercaseSoundGrid"></div>
+        </div>
+
+        <!-- Lower Case Sound Recognition -->
+        <div class="assessment-section">
+            <div class="assessment-title">
+                🎵 Lower Case Sound Recognition
+            </div>
+            <div class="assessment-description">
+                Can the student say the letter SOUND when shown the lowercase letter?
+            </div>
+            <div class="alphabet-grid" id="lowercaseSoundGrid"></div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="saveStudent()">💾 Save Student</button>
+            <button class="btn btn-warning" onclick="clearForm()">🔄 Clear Form</button>
+            <button class="btn btn-success" onclick="generateGroups()">🎯 Create Groups</button>
+        </div>
+
+        <div id="savedStudents"></div>
+    </div>
+
+    <div class="groups-section" id="groupsSection">
+        <h2>👥 Small Groups & Targeted Activities</h2>
+        <div id="groupsContainer"></div>
+    </div>
+
+    <div class="progress-section">
+        <h2>📊 Class Progress Overview</h2>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <p id="progressText">0% letter skills mastered across all students</p>
+        <div id="studentProgress"></div>
+    </div>
+
+    <script>
+        let currentQuarter = 1;
+        let currentLanguage = 'english';
+        let students = JSON.parse(localStorage.getItem('pk4DetailedAssessment') || '{}');
+        
+        const alphabets = {
+            english: ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
+            spanish: ['A','B','C','CH','D','E','F','G','H','I','J','K','L','LL','M','N','Ñ','O','P','Q','R','RR','S','T','U','V','W','X','Y','Z']
+        };
+
+        const skillTypes = ['uppercaseName', 'lowercaseName', 'uppercaseSound', 'lowercaseSound'];
+
+        // Enhanced PK4 activities - more advanced than PK3
+        const pk4Activities = {
+            'A': [
+                {
+                    title: "Airplane Control Tower",
+                    description: "Students act as air traffic controllers, identifying uppercase/lowercase A's on airplane cards before 'landing' them.",
+                    materials: "Airplane cutouts with A/a letters, control tower prop, landing strip mat"
+                },
+                {
+                    title: "Apple Orchard Business",
+                    description: "Run an apple orchard business, sorting apples marked with A/a and making the /a/ sound for each sale.",
+                    materials: "Apple props with letters, play money, cash register, business cards"
+                }
+            ],
+            'B': [
+                {
+                    title: "Bakery Production Line",
+                    description: "Operate a bakery, decorating bread/cookies with B/b letters while practicing letter names and sounds.",
+                    materials: "Play dough, cookie cutters, bakery aprons, letter B/b stamps"
+                },
+                {
+                    title: "Basketball Letter Shooting",
+                    description: "Shoot basketballs marked with B/b into hoops while calling out letter names and sounds.",
+                    materials: "Mini basketballs with letters, small hoops, scoreboard"
+                }
+            ],
+            'C': [
+                {
+                    title: "Construction Site Management",
+                    description: "Manage a construction site, using trucks and tools marked with C/c to build letter structures.",
+                    materials: "Toy construction vehicles, hard hats, letter C/c blocks, blueprints"
+                },
+                {
+                    title: "Cookie Factory Production",
+                    description: "Run a cookie factory assembly line, quality-checking cookies for proper C/c letter placement.",
+                    materials: "Cookie props, conveyor belt setup, quality control clipboards"
+                }
+            ]
+        };
+
+        function init() {
+            createAllAlphabetGrids();
+            displaySavedStudents();
+            updateProgress();
+        }
+
+        function selectQuarter(quarter) {
+            currentQuarter = quarter;
+            document.querySelectorAll('.quarter-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.quarter-tab')[quarter-1].classList.add('active');
+            displaySavedStudents();
+            updateProgress();
+        }
+
+        function selectLanguage(language) {
+            currentLanguage = language;
+            document.getElementById('englishBtn').classList.toggle('active', language === 'english');
+            document.getElementById('spanishBtn').classList.toggle('active', language === 'spanish');
+            createAllAlphabetGrids();
+        }
+
+        function createAllAlphabetGrids() {
+            createAlphabetGrid('uppercaseNameGrid', 'uppercaseName');
+            createAlphabetGrid('lowercaseNameGrid', 'lowercaseName');
+            createAlphabetGrid('uppercaseSoundGrid', 'uppercaseSound');
+            createAlphabetGrid('lowercaseSoundGrid', 'lowercaseSound');
+        }
+
+        function createAlphabetGrid(gridId, skillType) {
+            const grid = document.getElementById(gridId);
+            const alphabet = alphabets[currentLanguage];
+            
+            grid.innerHTML = '';
+            alphabet.forEach(letter => {
+                const letterBox = document.createElement('div');
+                letterBox.className = 'letter-box';
+                
+                const displayLetter = skillType.includes('lowercase') ? letter.toLowerCase() : letter.toUpperCase();
+                const checkboxId = `${skillType}_${letter}`;
+                
+                letterBox.innerHTML = `
+                    <input type="checkbox" id="${checkboxId}" value="${letter}" onchange="toggleLetter('${checkboxId}')">
+                    <label for="${checkboxId}">${displayLetter}</label>
+                `;
+                grid.appendChild(letterBox);
+            });
+        }
+
+        function toggleLetter(checkboxId) {
+            const checkbox = document.getElementById(checkboxId);
+            const letterBox = checkbox.parentElement;
+            
+            if (checkbox.checked) {
+                letterBox.classList.add('mastered');
+            } else {
+                letterBox.classList.remove('mastered');
+            }
+        }
+
+        function saveStudent() {
+            const name = document.getElementById('studentName').value.trim();
+            if (!name) {
+                alert('Please enter student name');
+                return;
+            }
+
+            const studentData = {
+                language: currentLanguage,
+                uppercaseName: [],
+                lowercaseName: [],
+                uppercaseSound: [],
+                lowercaseSound: []
+            };
+
+            const alphabet = alphabets[currentLanguage];
+            
+            skillTypes.forEach(skillType => {
+                alphabet.forEach(letter => {
+                    const checkbox = document.getElementById(`${skillType}_${letter}`);
+                    if (checkbox && checkbox.checked) {
+                        studentData[skillType].push(letter);
+                    }
+                });
+            });
+
+            if (!students[name]) {
+                students[name] = {};
+            }
+            
+            students[name][`Q${currentQuarter}_${currentLanguage}`] = studentData;
+
+            localStorage.setItem('pk4DetailedAssessment', JSON.stringify(students));
+            
+            alert(`${name} assessment saved successfully!`);
+            clearForm();
+            displaySavedStudents();
+            updateProgress();
+        }
+
+        function clearForm() {
+            document.getElementById('studentName').value = '';
+            skillTypes.forEach(skillType => {
+                alphabets[currentLanguage].forEach(letter => {
+                    const checkbox = document.getElementById(`${skillType}_${letter}`);
+                    if (checkbox) {
+                        checkbox.checked = false;
+                        checkbox.parentElement.classList.remove('mastered');
+                    }
+                });
+            });
+        }
+
+        function displaySavedStudents() {
+            const container = document.getElementById('savedStudents');
+            const quarterKey = `Q${currentQuarter}_${currentLanguage}`;
+            
+            const studentsThisQuarter = Object.keys(students).filter(name => 
+                students[name][quarterKey]
+            );
+
+            if (studentsThisQuarter.length === 0) {
+                container.innerHTML = '<p>No students assessed for this quarter/language yet.</p>';
+                return;
+            }
+
+            let html = '<h3>📋 Assessed Students:</h3>';
+            studentsThisQuarter.forEach(name => {
+                const data = students[name][quarterKey];
+                const totalPossible = alphabets[data.language].length * 4;
+                const totalMastered = data.uppercaseName.length + data.lowercaseName.length + 
+                                    data.uppercaseSound.length + data.lowercaseSound.length;
+                
+                html += `
+                    <div class="student-summary">
+                        <strong>${name}</strong> (${data.language})
+                        <br><strong>Overall Progress:</strong> ${totalMastered}/${totalPossible} skills (${Math.round((totalMastered/totalPossible)*100)}%)
+                        <div class="skill-summary">
+                            <div class="skill-box">🔤 Upper Name: ${data.uppercaseName.length}/${alphabets[data.language].length}</div>
+                            <div class="skill-box">🔡 Lower Name: ${data.lowercaseName.length}/${alphabets[data.language].length}</div>
+                            <div class="skill-box">🔊 Upper Sound: ${data.uppercaseSound.length}/${alphabets[data.language].length}</div>
+                            <div class="skill-box">🎵 Lower Sound: ${data.lowercaseSound.length}/${alphabets[data.language].length}</div>
+                        </div>
+                        <button class="btn btn-warning" onclick="editStudent('${name}')" style="margin-top: 10px; padding: 5px 10px;">✏️ Edit</button>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function editStudent(name) {
+            const quarterKey = `Q${currentQuarter}_${currentLanguage}`;
+            const data = students[name][quarterKey];
+            
+            document.getElementById('studentName').value = name;
+            
+            skillTypes.forEach(skillType => {
+                data[skillType].forEach(letter => {
+                    const checkbox = document.getElementById(`${skillType}_${letter}`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                        toggleLetter(`${skillType}_${letter}`);
+                    }
+                });
+            });
+        }
+
+        function generateGroups() {
+            const quarterKey = `Q${currentQuarter}_${currentLanguage}`;
+            const skillGroups = {
+                uppercaseName: {},
+                lowercaseName: {},
+                uppercaseSound: {},
+                lowercaseSound: {}
+            };
+            
+            Object.keys(students).forEach(name => {
+                const data = students[name][quarterKey];
+                if (data) {
+                    const alphabet = alphabets[data.language];
+                    
+                    skillTypes.forEach(skillType => {
+                        const needsSupport = alphabet.filter(letter => !data[skillType].includes(letter));
+                        needsSupport.forEach(letter => {
+                            if (!skillGroups[skillType][letter]) {
+                                skillGroups[skillType][letter] = [];
+                            }
+                            skillGroups[skillType][letter].push(name);
+                        });
+                    });
+                }
+            });
+
+            const container = document.getElementById('groupsContainer');
+            const section = document.getElementById('groupsSection');
+            
+            let hasGroups = false;
+            let html = '';
+
+            const skillTitles = {
+                uppercaseName: '🔤 Uppercase Name Recognition',
+                lowercaseName: '🔡 Lowercase Name Recognition', 
+                uppercaseSound: '🔊 Uppercase Sound Recognition',
+                lowercaseSound: '🎵 Lowercase Sound Recognition'
+            };
+
+            skillTypes.forEach(skillType => {
+                const significantGroups = Object.keys(skillGroups[skillType]).filter(letter => 
+                    skillGroups[skillType][letter].length >= 2
+                );
+
+                if (significantGroups.length > 0) {
+                    hasGroups = true;
+                    html += `<h3>${skillTitles[skillType]} Groups</h3>`;
+                    
+                    significantGroups.forEach(letter => {
+                        const studentList = skillGroups[skillType][letter];
+                        const displayLetter = skillType.includes('lowercase') ? letter.toLowerCase() : letter.toUpperCase();
+                        
+                        // Get PK4-specific activities
+                        const letterActivities = pk4Activities[letter.toUpperCase()] || [
+                            {
+                                title: `Advanced Letter ${displayLetter} Workshop`,
+                                description: `Comprehensive ${skillType.includes('Name') ? 'name recognition' : 'sound recognition'} practice for ${skillType.includes('uppercase') ? 'uppercase' : 'lowercase'} ${displayLetter}`,
+                                materials: `Letter ${displayLetter} materials, interactive props, role-play items`
+                            }
+                        ];
+                        
+                        html += `
+                            <div class="group-card">
+                                <div class="group-header">Letter "${displayLetter}" - ${skillTitles[skillType]}</div>
+                                <div class="student-list">
+                                    <strong>Students (${studentList.length}):</strong> ${studentList.join(', ')}
+                                </div>
+                                <h4>🎯 PK4 Advanced Activities (15-20 minutes):</h4>
+                        `;
+
+                        letterActivities.forEach((activity, index) => {
+                            html += `
+                                <div class="activity-item">
+                                    <div class="activity-title">Activity ${index + 1}: ${activity.title}</div>
+                                    <p><strong>Focus:</strong> ${skillType.includes('Name') ? 'Letter name identification' : 'Letter sound production'} for ${skillType.includes('uppercase') ? 'uppercase' : 'lowercase'} "${displayLetter}"</p>
+                                    <p>${activity.description}</p>
+                                    <div class="materials-box">
+                                        <strong>📦 Materials:</strong> ${activity.materials}
+                                    </div>
+                                    <p><strong>💡 PK4 Extensions:</strong></p>
+                                    <ul>
+                                        <li>Role-playing scenarios with letter ${displayLetter}</li>
+                                        <li>Problem-solving activities using ${displayLetter} context</li>
+                                        <li>Creative storytelling incorporating ${displayLetter} words</li>
+                                        <li>Peer teaching opportunities</li>
+                                    </ul>
+                                </div>
+                            `;
+                        });
+
+                        html += '</div>';
+                    });
+                }
+            });
+
+            if (!hasGroups) {
+                html = '<p>No groups with multiple students found. Consider individual support or wait for more assessments.</p>';
+            }
+
+            container.innerHTML = html;
+            section.style.display = 'block';
+        }
+
+        function updateProgress() {
+            const quarterKey = `Q${currentQuarter}_${currentLanguage}`;
+            let totalSkills = 0;
+            let masteredSkills = 0;
+
+            Object.keys(students).forEach(name => {
+                const data = students[name][quarterKey];
+                if (data) {
+                    const alphabetLength = alphabets[data.language].length;
+                    totalSkills += alphabetLength * 4;
+                    masteredSkills += data.uppercaseName.length + data.lowercaseName.length + 
+                                    data.uppercaseSound.length + data.lowercaseSound.length;
+                }
+            });
+
+            const percentage = totalSkills > 0 ? Math.round((masteredSkills / totalSkills) * 100) : 0;
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = 
+                `${percentage}% letter skills mastered (${masteredSkills}/${totalSkills} total skills)`;
+
+            const progressContainer = document.getElementById('studentProgress');
+            const studentsThisQuarter = Object.keys(students).filter(name => 
+                students[name][quarterKey]
+            );
+
+            if (studentsThisQuarter.length > 0) {
+                let progressHtml = '<h3>📈 Individual Student Progress:</h3>';
+                studentsThisQuarter.forEach(name => {
+                    const data = students[name][quarterKey];
+                    const totalPossible = alphabets[data.language].length * 4;
+                    const totalMastered = data.uppercaseName.length + data.lowercaseName.length + 
+                                        data.uppercaseSound.length + data.lowercaseSound.length;
+                    const studentPercentage = Math.round((totalMastered / totalPossible) * 100);
+                    
+                    progressHtml += `
+                        <div class="student-summary">
+                            <strong>${name}:</strong> ${totalMastered}/${totalPossible} skills mastered (${studentPercentage}%)
+                            <div class="skill-summary">
+                                <div class="skill-box">🔤 ${data.uppercaseName.length}/${alphabets[data.language].length}</div>
+                                <div class="skill-box">🔡 ${data.lowercaseName.length}/${alphabets[data.language].length}</div>
+                                <div class="skill-box">🔊 ${data.uppercaseSound.length}/${alphabets[data.language].length}</div>
+                                <div class="skill-box">🎵 ${data.lowercaseSound.length}/${alphabets[data.language].length}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                progressContainer.innerHTML = progressHtml;
+            } else {
+                progressContainer.innerHTML = '<p>No assessment data available for this quarter/language.</p>';
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
